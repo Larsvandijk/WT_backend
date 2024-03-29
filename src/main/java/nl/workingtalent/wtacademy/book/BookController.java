@@ -37,20 +37,22 @@ public class BookController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "books/create")
-	public void addBook(@RequestBody ObjectNode bookData) {
+	public void addBook(@RequestBody SaveBookDto saveBookDto) {
 		
-		JsonNode newBook = bookData.get("book");
-		
-		String author = bookData.get("author").asText();
 		Book dbBook = new Book();
+		dbBook.setTitle(saveBookDto.getTitle());
+		dbBook.setDescription(saveBookDto.getDescription());
+//		dbBook.setImageLink(newBook.get("imageLink").asText());
+//		dbBook.setPublisherId(newBook.get("publisherId").asInt());
+//		dbBook.setPublishingDate(LocalDateTime.parse(newBook.get("publishingDate").asText()));
 		
-		dbBook.setTitle(newBook.get("title").asText());
-		dbBook.setDescription(newBook.get("description").asText());
-		dbBook.setImageLink(newBook.get("imageLink").asText());
-		dbBook.setPublisherId(newBook.get("publisherId").asInt());
-		dbBook.setPublishingDate(LocalDateTime.parse(newBook.get("publishingDate").asText()));
-		
-		authorService.addAuthor(author);
+		// Authors langs gaan
+		for (String authorName : saveBookDto.getAuthors()) {
+			// Bestaat de author al in de db -> voeg author toe aan boek
+			// Niet bestaat dan aanmaken en toevoegen aan lijst authord
+
+//			authorService.addAuthor(author);
+		}
 		
 		service.addBook(dbBook);
 	}

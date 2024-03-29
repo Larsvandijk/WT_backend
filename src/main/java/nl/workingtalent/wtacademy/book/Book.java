@@ -1,12 +1,18 @@
 package nl.workingtalent.wtacademy.book;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import nl.workingtalent.wtacademy.author.Author;
+import nl.workingtalent.wtacademy.bookcopy.BookCopy;
 
 @Entity
 public class Book {
@@ -27,6 +33,12 @@ public class Book {
 	
 	@Column(length = 450)
 	private String title;
+
+	@ManyToMany(mappedBy = "books")
+	private List<Author> authors;
+
+	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
+	private List<BookCopy> bookCopies;
 
 	public long getId() {
 		return id;
@@ -75,5 +87,21 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}	
+	
+	public List<Author> getAuthors() {
+		return authors;
+	}
+	
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
+	
+	public List<BookCopy> getBookCopies() {
+		return bookCopies;
+	}
+	
+	public void setBookCopies(List<BookCopy> bookCopies) {
+		this.bookCopies = bookCopies;
+	}
 
 }
