@@ -1,5 +1,6 @@
 package nl.workingtalent.wtacademy.user;
 
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +8,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import nl.workingtalent.wtacademy.loan.Loan;
+import nl.workingtalent.wtacademy.reservation.Reservation;
+import nl.workingtalent.wtacademy.review.Review;
 
 @Entity
 public class User {
@@ -18,19 +23,26 @@ public class User {
 	@Column(length = 50, nullable = false)
 	private String firstName;
 	
-	@Column(length = 100, nullable = false)
+	@Column(length = 50, nullable = false)
 	private String lastName;
 	
 	@Column(length = 100, nullable = false)
-	private String emailaddress;
+	private String email;
 	
 	@Column(length = 50, nullable = false)
 	private String password;
 	
-	private int addressId;
-	
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Review> reviews;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Reservation> reservations;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Loan> loans;
 
 	public long getId() {
 		return id;
@@ -56,12 +68,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public String getEmailaddress() {
-		return emailaddress;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEmailaddress(String emailaddress) {
-		this.emailaddress = emailaddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -72,20 +84,36 @@ public class User {
 		this.password = password;
 	}
 
-	public int getAddressId() {
-		return addressId;
-	}
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
-
 	public Role getRole() {
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public List<Loan> getLoans() {
+		return loans;
+	}
+
+	public void setLoans(List<Loan> loans) {
+		this.loans = loans;
 	}
 
 }

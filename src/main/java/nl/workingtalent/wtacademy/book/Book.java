@@ -1,7 +1,8 @@
 package nl.workingtalent.wtacademy.book;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale.Category;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,6 +14,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import nl.workingtalent.wtacademy.author.Author;
 import nl.workingtalent.wtacademy.bookcopy.BookCopy;
+import nl.workingtalent.wtacademy.reservation.Reservation;
+import nl.workingtalent.wtacademy.review.Review;
 
 @Entity
 public class Book {
@@ -21,24 +24,29 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(length = 450)
+	private String title;
+	
 	private String description;
 	
+	private LocalDate publishingDate;	
+
+	private String isbn;
+		
 	@Column(length = 125)
 	private String imageLink;
 	
-	@Column(length = 11)
-	private int publisherId;
+	@OneToMany(mappedBy = "book")
+	private List<Review> reviews;
 	
-	private LocalDateTime publishingDate;
-	
-	@Column(length = 450)
-	private String title;
-
-	@ManyToMany(mappedBy = "books")
-	private List<Author> authors;
-
-	@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "book")
 	private List<BookCopy> bookCopies;
+	
+	@OneToMany(mappedBy = "book")
+	private List<Reservation> reservations;
+	
+	@ManyToMany
+	private List<Author> authors;
 
 	public long getId() {
 		return id;
@@ -46,6 +54,14 @@ public class Book {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -56,6 +72,22 @@ public class Book {
 		this.description = description;
 	}
 
+	public LocalDate getPublishingDate() {
+		return publishingDate;
+	}
+
+	public void setPublishingDate(LocalDate publishingDate) {
+		this.publishingDate = publishingDate;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
 	public String getImageLink() {
 		return imageLink;
 	}
@@ -64,44 +96,36 @@ public class Book {
 		this.imageLink = imageLink;
 	}
 
-	public int getPublisherId() {
-		return publisherId;
+	public List<Review> getReviews() {
+		return reviews;
 	}
 
-	public void setPublisherId(int publisherId) {
-		this.publisherId = publisherId;
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
-	public LocalDateTime getPublishingDate() {
-		return publishingDate;
-	}
-
-	public void setPublishingDate(LocalDateTime publishingDate) {
-		this.publishingDate = publishingDate;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}	
-	
-	public List<Author> getAuthors() {
-		return authors;
-	}
-	
-	public void setAuthors(List<Author> authors) {
-		this.authors = authors;
-	}
-	
 	public List<BookCopy> getBookCopies() {
 		return bookCopies;
 	}
-	
+
 	public void setBookCopies(List<BookCopy> bookCopies) {
 		this.bookCopies = bookCopies;
 	}
 
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public List<Author> getAuthors() {
+		return authors;
+	}
+
+	public void setAuthors(List<Author> authors) {
+		this.authors = authors;
+	}
+	
 }
