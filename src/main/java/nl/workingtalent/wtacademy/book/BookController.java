@@ -1,22 +1,20 @@
 package nl.workingtalent.wtacademy.book;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import nl.workingtalent.wtacademy.author.AuthorService;
 
 @RestController
+@CrossOrigin(maxAge = 3600)
 public class BookController {
 	
 	@Autowired
@@ -27,7 +25,6 @@ public class BookController {
 	
 	@RequestMapping("books/all")
 	public List<Book> getAllBooks(){
-		
 		return service.getAllBooks();
 	}
 	
