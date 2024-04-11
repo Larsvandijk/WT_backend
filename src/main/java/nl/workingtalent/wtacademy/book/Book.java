@@ -19,34 +19,37 @@ import nl.workingtalent.wtacademy.review.Review;
 
 @Entity
 public class Book {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(length = 450)
 	private String title;
-	
+
 	private String description;
-	
-	private LocalDate publishingDate;	
+
+	private LocalDate publishingDate;
 
 	private String isbn;
-		
+
 	@Column(length = 125)
 	private String imageLink;
-	
+
 	@OneToMany(mappedBy = "book")
 	private List<Review> reviews;
-	
+
 	@OneToMany(mappedBy = "book")
 	private List<BookCopy> bookCopies;
-	
+
 	@OneToMany(mappedBy = "book")
 	private List<Reservation> reservations;
-	
+
 	@ManyToMany
 	private List<Author> authors;
+
+	@ManyToMany
+	private List<Category> categories;
 
 	public long getId() {
 		return id;
@@ -127,5 +130,13 @@ public class Book {
 	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
-	
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
 }
