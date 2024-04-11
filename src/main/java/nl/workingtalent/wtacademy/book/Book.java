@@ -2,9 +2,7 @@ package nl.workingtalent.wtacademy.book;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale.Category;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import nl.workingtalent.wtacademy.author.Author;
 import nl.workingtalent.wtacademy.bookcopy.BookCopy;
+import nl.workingtalent.wtacademy.category.Category;
 import nl.workingtalent.wtacademy.reservation.Reservation;
 import nl.workingtalent.wtacademy.review.Review;
 
