@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import nl.workingtalent.wtacademy.book.Book;
 import nl.workingtalent.wtacademy.book.BookService;
 import nl.workingtalent.wtacademy.dto.ResponseDto;
+import nl.workingtalent.wtacademy.user.Role;
 import nl.workingtalent.wtacademy.user.User;
 import nl.workingtalent.wtacademy.user.UserService;
 
@@ -71,22 +74,20 @@ public class ReservationController {
 
 	// CREATE
 	@PostMapping("reservation/create")
-	public ResponseDto createReservation(@RequestBody CreateReservationDto dto) {
+	public ResponseDto createReservation(@RequestBody CreateReservationDto dto, HttpServletRequest request) {
+		User user = (User)request.getAttribute("WT_USER");
+		if (user == null || user.getRole() != Role.FRONTOFFICE) {
+			return ResponseDto.createPermissionDeniedResponse();
+		}
+		
 		Optional<Book> optionalBook = bookService.getBookById(dto.getBookId());
-		Optional<User> optionalUser = userService.findUserById(dto.getUserId());
 
 		// DOES BOOK EXIST?
 		if (optionalBook.isEmpty()) {
 			return new ResponseDto(false, null, null, "Book not found.");
 		}
 
-		// DOES USER EXIST?
-		if (optionalUser.isEmpty()) {
-			return new ResponseDto(false, null, null, "User not found.");
-		}
-
 		Book book = optionalBook.get();
-		User user = optionalUser.get();
 
 		Reservation newReservation = new Reservation();
 		newReservation.setReservationRequest(dto.getReservationRequest());
