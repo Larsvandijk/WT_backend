@@ -76,10 +76,14 @@ public class ReservationController {
 	@PostMapping("reservation/create")
 	public ResponseDto createReservation(@RequestBody CreateReservationDto dto, HttpServletRequest request) {
 		User user = (User)request.getAttribute("WT_USER");
-		if (user == null || user.getRole() != Role.FRONTOFFICE) {
+//		if (user == null || user.getRole() != Role.FRONTOFFICE) {
+//			return ResponseDto.createPermissionDeniedResponse();
+//		}
+
+		if (user == null) {
 			return ResponseDto.createPermissionDeniedResponse();
 		}
-		
+
 		Optional<Book> optionalBook = bookService.getBookById(dto.getBookId());
 
 		// DOES BOOK EXIST?

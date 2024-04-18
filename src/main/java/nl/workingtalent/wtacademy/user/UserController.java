@@ -2,6 +2,7 @@ package nl.workingtalent.wtacademy.user;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -162,7 +163,7 @@ public class UserController {
 		String hashedPassword = hashSHA256(dto.getPassword());
 		Optional<User> optionalUser = service.login(dto.getEmail(), hashedPassword);
 		if (optionalUser.isEmpty()) {
-			return new ResponseDto(false, null, null, "Gebruiker niet gevonden");
+			return new ResponseDto(false, null, Arrays.asList("Gebruiker niet gevonden"), null);
 		}
 
 		// Dit is de gevonden user
@@ -178,6 +179,7 @@ public class UserController {
 		LoginResponseDto loginResponseDto = new LoginResponseDto();
 		loginResponseDto.setName(user.getFirstName() + " " + user.getLastName());
 		loginResponseDto.setToken(user.getToken());
+		loginResponseDto.setRole(user.getRole().name());
 
 		return new ResponseDto(true, loginResponseDto, null, null);
 	}
